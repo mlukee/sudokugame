@@ -13,6 +13,7 @@ import com.sudokugame.game.assets.AssetDescriptors;
 import com.sudokugame.game.config.GameConfig;
 import com.sudokugame.game.screen.GameScreen;
 import com.sudokugame.game.screen.IntroScreen;
+import com.sudokugame.game.screen.MenuScreen;
 
 public class Sudoku extends Game {
 
@@ -43,7 +44,7 @@ public class Sudoku extends Game {
         clickSound = assetManager.get(AssetDescriptors.CLICK_SOUND);
         batch = new SpriteBatch();
 
-        setScreen(new IntroScreen(this));
+        setScreen(new MenuScreen(this));
     }
 
     @Override
