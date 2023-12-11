@@ -37,6 +37,7 @@ public class IntroScreen extends ScreenAdapter {
     public IntroScreen(Sudoku game) {
         this.game = game;
         assetManager = game.getAssetManager();
+        game.switchMusic(game.menuMusic);
     }
 
 
@@ -46,6 +47,7 @@ public class IntroScreen extends ScreenAdapter {
         stage = new Stage(viewport, game.getBatch());
 
         assetManager.load(AssetDescriptors.GAME_PLAY);
+        assetManager.load(AssetDescriptors.MENU_MUSIC);
         assetManager.finishLoading();
 
         gamePlayAtlas = assetManager.get(AssetDescriptors.GAME_PLAY);

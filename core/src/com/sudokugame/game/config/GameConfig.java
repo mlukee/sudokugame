@@ -14,6 +14,8 @@ public class GameConfig {
     public static final String PREFS_NAME = "SettingsPrefs";
     public static final String PREFS_TIME = "timeSetting";
     public static final String PREFS_MISTAKES = "mistakeSetting";
+    public static final String PREFS_MUSIC_VOLUME = "musicVolumeSetting";
+    public static final String PREFS_SFX_ENABLED = "sfxEnabledSetting";
 
     private GameConfig() {
     }

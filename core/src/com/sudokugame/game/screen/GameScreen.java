@@ -47,6 +47,7 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(Sudoku game) {
         this.game = game;
         assetManager = game.getAssetManager();
+        game.switchMusic(game.gameMusic);
 
         sudokuGenerator = new Generator();
         grid = sudokuGenerator.generate(42);
@@ -141,7 +142,7 @@ public class GameScreen extends ScreenAdapter {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // Code to go back to the menu screen
+                game.playClickSound();
                 game.setScreen(new MenuScreen(game));
             }
         });

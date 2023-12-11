@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -91,6 +92,7 @@ public class SettingsScreen extends ScreenAdapter {
         timeCheckbox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                game.playClickSound();
                 prefs.putBoolean(GameConfig.PREFS_TIME, timeCheckbox.isChecked());
                 prefs.flush();
             }
@@ -103,11 +105,44 @@ public class SettingsScreen extends ScreenAdapter {
         mistakesCheckbox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                game.playClickSound();
                 prefs.putBoolean(GameConfig.PREFS_MISTAKES, mistakesCheckbox.isChecked());
                 prefs.flush();
             }
         });
         table.add(mistakesCheckbox).padBottom(10).left().row();
+
+        // Music volume slider
+        Label volumeLabel = new Label("Music Volume", skin);
+        table.add(volumeLabel).padBottom(10).left().row();
+
+        final Slider volumeSlider = new Slider(0, 1, 0.01f, false, skin);
+        volumeSlider.setValue(prefs.getFloat(GameConfig.PREFS_MUSIC_VOLUME, 0.5f)); // Default to 50% volume
+        volumeSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                float volume = volumeSlider.getValue();
+                prefs.putFloat(GameConfig.PREFS_MUSIC_VOLUME, volume);
+                game.setMusicVolume(volume);
+                prefs.flush();
+            }
+        });
+        table.add(volumeSlider).padBottom(10).left().row();
+
+        Label sfxLabel = new Label("Sound Effects", skin);
+        table.add(sfxLabel).padBottom(10).left().row();
+
+        final CheckBox sfxCheckbox = new CheckBox(" Sound Effects", skin);
+        sfxCheckbox.setChecked(prefs.getBoolean(GameConfig.PREFS_SFX_ENABLED, true));
+        sfxCheckbox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.playClickSound();
+                prefs.putBoolean(GameConfig.PREFS_SFX_ENABLED, sfxCheckbox.isChecked());
+                prefs.flush();
+            }
+        });
+        table.add(sfxCheckbox).padBottom(10).left().row();
 
         return table;
     }
@@ -120,6 +155,7 @@ public class SettingsScreen extends ScreenAdapter {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                game.playClickSound();
                 game.setScreen(new MenuScreen(game));
             }
         });

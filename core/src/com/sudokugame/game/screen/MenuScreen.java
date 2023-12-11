@@ -32,6 +32,9 @@ public class MenuScreen extends ScreenAdapter {
     public MenuScreen(Sudoku game) {
         this.game = game;
         assetManager = game.getAssetManager();
+        if (game.gameMusic.isPlaying()) {
+            game.switchMusic(game.menuMusic);
+        }
     }
 
     @Override
@@ -81,7 +84,8 @@ public class MenuScreen extends ScreenAdapter {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                 game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreen(game));
+                game.playClickSound();;
             }
         });
 
@@ -89,6 +93,7 @@ public class MenuScreen extends ScreenAdapter {
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                game.playClickSound();;
                 Gdx.app.exit();
             }
         });
@@ -97,7 +102,8 @@ public class MenuScreen extends ScreenAdapter {
         leaderboardButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                 game.setScreen(new LeaderBoardScreen(game));
+                game.playClickSound();;
+                game.setScreen(new LeaderBoardScreen(game));
             }
         });
 
@@ -105,7 +111,8 @@ public class MenuScreen extends ScreenAdapter {
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                 game.setScreen(new SettingsScreen(game));
+                game.playClickSound();
+                game.setScreen(new SettingsScreen(game));
             }
         });
 
@@ -126,8 +133,6 @@ public class MenuScreen extends ScreenAdapter {
 
         return table;
     }
-
-
 
 
 }
