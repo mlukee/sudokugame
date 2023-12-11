@@ -101,11 +101,20 @@ public class MenuScreen extends ScreenAdapter {
             }
         });
 
+        TextButton settingsButton = new TextButton("Settings", skin);
+        settingsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                 game.setScreen(new SettingsScreen(game));
+            }
+        });
+
         Table buttonTable = new Table(skin);
         buttonTable.defaults().padBottom(10).width(200); // Set the desired width here
 
         buttonTable.add(playButton).width(200).row();
         buttonTable.add(leaderboardButton).width(200).row();
+        buttonTable.add(settingsButton).width(200).row();
         buttonTable.add(exitButton).width(200).row();
 
         // Add the label to the main table, above the buttonTable

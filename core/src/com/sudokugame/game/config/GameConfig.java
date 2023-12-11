@@ -11,6 +11,10 @@ public class GameConfig {
     public static final float WORLD_WIDTH = 500; // world units
     public static final float WORLD_HEIGHT = 500; // world units
 
+    public static final String PREFS_NAME = "SettingsPrefs";
+    public static final String PREFS_TIME = "timeSetting";
+    public static final String PREFS_MISTAKES = "mistakeSetting";
+
     private GameConfig() {
     }
 }
