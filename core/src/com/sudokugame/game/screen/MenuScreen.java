@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -84,10 +85,28 @@ public class MenuScreen extends ScreenAdapter {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game));
-                game.playClickSound();;
+                game.playClickSound();
+
+                // Create the dialog
+                Dialog modeDialog = new Dialog("Choose Difficulty", skin) {
+                    @Override
+                    protected void result(Object object) {
+                        String difficulty = (String) object;
+                        // Pass the selected difficulty to the GameScreen
+                        game.setScreen(new GameScreen(game, difficulty));
+                    }
+                };
+
+                // Add buttons for each game mode
+                modeDialog.button("Easy", "Easy");
+                modeDialog.button("Medium", "Medium");
+                modeDialog.button("Hard", "Hard");
+
+                // Show the dialog
+                modeDialog.show(stage);
             }
         });
+
 
         TextButton exitButton = new TextButton("Exit", skin);
         exitButton.addListener(new ClickListener() {
