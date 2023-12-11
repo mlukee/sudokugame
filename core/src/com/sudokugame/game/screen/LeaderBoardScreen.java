@@ -83,32 +83,39 @@ public class LeaderBoardScreen extends ScreenAdapter {
         Label titleLabel = new Label("Leaderboard", skin, "title");
         table.add(titleLabel).padBottom(20).center().row();
 
-        // Create an array to hold the leaderboard entries
-        Array<String> leaderboardEntries = new Array<>();
+        // Leaderboard table for usernames and times
+        Table leaderboardTable = new Table(skin);
+
+        // Populate the leaderboard table
         for (int i = 1; i <= 30; i++) {
             String userName = "User" + i;
-            int timeInSeconds = (int)(Math.random() * (180 - 30)) + 30;
+            int timeInSeconds = (int) (Math.random() * (180 - 30)) + 30;
             String formattedTime = String.format("%d:%02d", timeInSeconds / 60, timeInSeconds % 60);
-            leaderboardEntries.add(userName + " - " + formattedTime);
+
+            // Username label, aligned to the left
+            Label nameLabel = new Label(userName, skin);
+            nameLabel.setAlignment(Align.left);
+
+            // Time label, aligned to the right
+            Label timeLabel = new Label(formattedTime, skin);
+            timeLabel.setAlignment(Align.right);
+
+            // Add labels to the leaderboard table
+            leaderboardTable.add(nameLabel).expandX().align(Align.left);
+            leaderboardTable.add(timeLabel).expandX().align(Align.right).row();
         }
 
-        // Create the list widget and add the entries
-        List<String> leaderboardList = new List<>(skin);
-        leaderboardList.setItems(leaderboardEntries);
-
-        // Center-align text in the list
-        leaderboardList.setAlignment(Align.center);
-
-        // Wrap the list in a scroll pane
-        ScrollPane scrollPane = new ScrollPane(leaderboardList, skin);
+        // Wrap the leaderboard table in a scroll pane
+        ScrollPane scrollPane = new ScrollPane(leaderboardTable, skin);
         scrollPane.setFadeScrollBars(false);
 
-        // Add the scroll pane to the table, not using full width and height
-        table.add(scrollPane).width(180).height(250).center().row();
+        // Add the scroll pane to the main table
+        table.add(scrollPane).width(250).height(300).center().row();
 
         // Return the main table
         return table;
     }
+
 
     public void showBackButton(Stage stage) {
         // Back button
@@ -117,7 +124,7 @@ public class LeaderBoardScreen extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // Code to go back to the menu screen
-                 game.setScreen(new MenuScreen(game));
+                game.setScreen(new MenuScreen(game));
             }
         });
 
