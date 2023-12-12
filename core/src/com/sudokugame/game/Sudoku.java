@@ -44,7 +44,7 @@ public class Sudoku extends Game {
         clickSound = assetManager.get(AssetDescriptors.CLICK_SOUND);
         batch = new SpriteBatch();
 
-        setScreen(new MenuScreen(this));
+        setScreen(new IntroScreen(this));
     }
 
     @Override

@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -27,6 +28,7 @@ import com.sudokugame.game.Sudoku;
 import com.sudokugame.game.assets.AssetDescriptors;
 import com.sudokugame.game.common.GameDifficulty;
 import com.sudokugame.game.common.GameManager;
+import com.sudokugame.game.common.Player;
 import com.sudokugame.game.config.GameConfig;
 import com.sudokugame.game.gameLogic.Generator;
 import com.sudokugame.game.gameLogic.Grid;
@@ -36,7 +38,6 @@ import com.sudokugame.game.gameLogic.Solver;
 public class GameScreen extends ScreenAdapter {
     private static final Logger log = new Logger(GameScreen.class.getSimpleName(), Logger.DEBUG);
 
-    private String difficulty;
     private final Sudoku game;
     private GameManager gameManager;
     private final AssetManager assetManager;
@@ -65,7 +66,6 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(Sudoku game, String difficulty) {
         this.game = game;
         assetManager = game.getAssetManager();
-        this.difficulty = difficulty;
         gameManager = new GameManager();
 
         //get GameDifficulty from difficulty
@@ -132,11 +132,11 @@ public class GameScreen extends ScreenAdapter {
         hudViewport.update(width, height, true);
     }
 
-    public String formatTime(long seconds) {
-        long minutes = seconds / 60;
-        long remainingSeconds = seconds % 60;
-        return String.format("%d:%02d", minutes, remainingSeconds);
-    }
+//    public String formatTime(long seconds) {
+//        long minutes = seconds / 60;
+//        long remainingSeconds = seconds % 60;
+//        return String.format("%d:%02d", minutes, remainingSeconds);
+//    }
 
 
     @Override
@@ -144,7 +144,7 @@ public class GameScreen extends ScreenAdapter {
         ScreenUtils.clear(0.5f, 0.5f, 0.5f, 1);
 
         time = gameManager.getElapsedTime();
-        timerLabel.setText("Time: " + formatTime(time));
+        timerLabel.setText("Time: " + gameManager.formatTime(time));
 
         //update
         gameplayStage.act(delta);
@@ -171,11 +171,10 @@ public class GameScreen extends ScreenAdapter {
         table.defaults().pad(0);
         table.setDebug(false); // Set to true to debug the layout
 
-        // Mistakes label, left-aligned
         Label mistakesLabel = new Label("Mistakes: 0/3", skin, "white");
 
         // Timer label, right-aligned
-        timerLabel = new Label("Time: " + formatTime(time), skin, "white");
+        timerLabel = new Label("Time: " + gameManager.formatTime(time), skin, "white");
 
         // Add both labels to the table, aligning them on opposite sides
         table.add(mistakesLabel).fill().left().padRight(30);

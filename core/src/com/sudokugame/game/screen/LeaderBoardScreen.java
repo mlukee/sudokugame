@@ -20,19 +20,27 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.sudokugame.game.Sudoku;
 import com.sudokugame.game.assets.AssetDescriptors;
+import com.sudokugame.game.common.GameDifficulty;
+import com.sudokugame.game.common.GameManager;
+import com.sudokugame.game.common.Player;
 import com.sudokugame.game.config.GameConfig;
 
 public class LeaderBoardScreen extends ScreenAdapter {
     private final Sudoku game;
     private final AssetManager assetManager;
+    private final GameManager gameManager;
 
     private Viewport viewport;
     private Stage stage;
     private Skin skin;
+    private Array<Player> players;
 
     public LeaderBoardScreen(Sudoku game) {
         this.game = game;
         assetManager = game.getAssetManager();
+        gameManager = new GameManager();
+        this.players = new Array<>(); // Initialize the players array
+
     }
 
     @Override
@@ -79,6 +87,7 @@ public class LeaderBoardScreen extends ScreenAdapter {
         table.setFillParent(true);
         table.pad(10);
 
+
         // Title label
         Label titleLabel = new Label("Leaderboard", skin, "title");
         table.add(titleLabel).padBottom(20).center().row();
@@ -87,17 +96,15 @@ public class LeaderBoardScreen extends ScreenAdapter {
         Table leaderboardTable = new Table(skin);
 
         // Populate the leaderboard table
-        for (int i = 1; i <= 30; i++) {
-            String userName = "User" + i;
-            int timeInSeconds = (int) (Math.random() * (180 - 30)) + 30;
-            String formattedTime = String.format("%d:%02d", timeInSeconds / 60, timeInSeconds % 60);
-
+        players = gameManager.getPlayers();
+        int size = players.size;
+        for (int i = 0;i<size; i++) {
             // Username label, aligned to the left
-            Label nameLabel = new Label(userName, skin);
+            Label nameLabel = new Label(players.get(i).getName(), skin);
             nameLabel.setAlignment(Align.left);
 
             // Time label, aligned to the right
-            Label timeLabel = new Label(formattedTime, skin);
+            Label timeLabel = new Label(players.get(i).getTime(), skin);
             timeLabel.setAlignment(Align.right);
 
             // Add labels to the leaderboard table
